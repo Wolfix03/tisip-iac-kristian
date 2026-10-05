@@ -1,8 +1,8 @@
 terraform {
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = "~> 4.0"
+      source  = "hashicorp/azurerm"
+      version = "~> 4.0"
     }
   }
 }
@@ -12,11 +12,11 @@ provider "azurerm" {
 }
 
 resource "azurerm_resource_group" "rg" {
-  name = local.resource_group_name
+  name     = local.resource_group_name
   location = var.location
 
   tags = {
     student = var.student_id
-    course = "iac"
+    course  = "iac"
   }
 }

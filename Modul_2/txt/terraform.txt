@@ -1,0 +1,3 @@
+student_id = "krisan03"
+project    = "tisip-iac"
+location   = "norwayeast"
