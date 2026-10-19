@@ -7,7 +7,6 @@ terraform {
         version = "~> 5.4"
     }
   }
-  backend "azurerm" {} # konfig via -backend-config
 }
 
 provider "azurerm" {
@@ -16,6 +15,8 @@ provider "azurerm" {
   # azurerm 5.x registrerer ingen resource providers automatisk
   resource_providers_to_register = [ "Microsoft.Storage", "Microsoft.KeyVault" ]
 }
+
+data "azurerm_client_config" "current" {}
 
 
 resource "azurerm_resource_group" "backend" {
