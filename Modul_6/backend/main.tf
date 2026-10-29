@@ -20,13 +20,13 @@ data "azurerm_client_config" "current" {}
 
 
 resource "azurerm_resource_group" "backend" {
-  name = "rg-demo-backend-krisan03"
-  location = "norwayeast"
+  name = local.backend_rg_name
+  location = var.location
   tags = local.tags
 }
 
 resource "azurerm_storage_account" "state" {
-  name = "stdemokrisan03"
+  name = local.backend_storage_name
   resource_group_name = azurerm_resource_group.backend.name
   location = azurerm_resource_group.backend.location
   account_tier = "Standard"
@@ -53,7 +53,7 @@ resource "azurerm_storage_container" "tfstate" {
 }
 
 resource "azurerm_key_vault" "demo" {
-  name = "kv-demo-krisan03"
+  name = local.backend_keyvault_name
   location = azurerm_resource_group.backend.location
   resource_group_name = azurerm_resource_group.backend.name
   tenant_id = data.azurerm_client_config.current.tenant_id
