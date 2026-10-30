@@ -3,8 +3,8 @@ terraform {
 
   required_providers {
     azurerm = {
-        source = "hashicorp/azurerm"
-        version = "~> 5.4"
+      source  = "hashicorp/azurerm"
+      version = "~> 5.4"
     }
   }
 }
@@ -13,26 +13,26 @@ provider "azurerm" {
   features {}
 
   # azurerm 5.x registrerer ingen resource providers automatisk
-  resource_providers_to_register = [ "Microsoft.Storage", "Microsoft.KeyVault" ]
+  resource_providers_to_register = ["Microsoft.Storage", "Microsoft.KeyVault"]
 }
 
 data "azurerm_client_config" "current" {}
 
 
 resource "azurerm_resource_group" "backend" {
-  name = local.backend_rg_name
+  name     = local.backend_rg_name
   location = var.location
-  tags = local.tags
+  tags     = local.tags
 }
 
 resource "azurerm_storage_account" "state" {
-  name = local.backend_storage_name
-  resource_group_name = azurerm_resource_group.backend.name
-  location = azurerm_resource_group.backend.location
-  account_tier = "Standard"
+  name                     = local.backend_storage_name
+  resource_group_name      = azurerm_resource_group.backend.name
+  location                 = azurerm_resource_group.backend.location
+  account_tier             = "Standard"
   account_replication_type = "LRS"
-  min_tls_version = "TLS1_2"
-  tags = local.tags
+  min_tls_version          = "TLS1_2"
+  tags                     = local.tags
 
   allow_nested_items_to_be_public = false
 
@@ -47,60 +47,60 @@ resource "azurerm_storage_account" "state" {
 }
 
 resource "azurerm_storage_container" "tfstate" {
-  name = "tfstate"
-  storage_account_id = azurerm_storage_account.state.id
+  name                  = "tfstate"
+  storage_account_id    = azurerm_storage_account.state.id
   container_access_type = "private"
 }
 
 resource "azurerm_key_vault" "demo" {
-  name = local.backend_keyvault_name
-  location = azurerm_resource_group.backend.location
-  resource_group_name = azurerm_resource_group.backend.name
-  tenant_id = data.azurerm_client_config.current.tenant_id
-  sku_name = "standard"
+  name                       = local.backend_keyvault_name
+  location                   = azurerm_resource_group.backend.location
+  resource_group_name        = azurerm_resource_group.backend.name
+  tenant_id                  = data.azurerm_client_config.current.tenant_id
+  sku_name                   = "standard"
   rbac_authorization_enabled = true
   soft_delete_retention_days = 7
-  purge_protection_enabled = false
-  tags = local.tags
+  purge_protection_enabled   = false
+  tags                       = local.tags
 }
 
 #------ tilgang: deg -------
 
 resource "azurerm_role_assignment" "meg_contributor" {
-  scope = azurerm_resource_group.backend.id
+  scope                = azurerm_resource_group.backend.id
   role_definition_name = "Contributor"
-  principal_id = data.azurerm_client_config.current.object_id
+  principal_id         = data.azurerm_client_config.current.object_id
 }
 
 resource "azurerm_role_assignment" "meg_blob" {
-  scope = azurerm_storage_account.state.id
+  scope                = azurerm_storage_account.state.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id = data.azurerm_client_config.current.object_id
+  principal_id         = data.azurerm_client_config.current.object_id
 }
 
 resource "azurerm_role_assignment" "meg_kv" {
-  scope = azurerm_key_vault.demo.id
+  scope                = azurerm_key_vault.demo.id
   role_definition_name = "Key Vault Secrets Officer"
-  principal_id = data.azurerm_client_config.current.object_id
+  principal_id         = data.azurerm_client_config.current.object_id
 }
 
 
 #------ tilgnag: workflowen (service principal-en bak app registration-en)
 resource "azurerm_role_assignment" "pipeline_contributor" {
-  scope = azurerm_resource_group.backend.id
+  scope                = azurerm_resource_group.backend.id
   role_definition_name = "Contributor"
-  principal_id = var.pipeline_principal_id
+  principal_id         = var.pipeline_principal_id
 }
 
 resource "azurerm_role_assignment" "pipeline_blob" {
-  scope = azurerm_storage_account.state.id
+  scope                = azurerm_storage_account.state.id
   role_definition_name = "Storage Blob Data Contributor"
-  principal_id = var.pipeline_principal_id
+  principal_id         = var.pipeline_principal_id
 }
 
 resource "azurerm_role_assignment" "pipeline_kv" {
-  scope = azurerm_key_vault.demo.id
+  scope                = azurerm_key_vault.demo.id
   role_definition_name = "Key Vault Secrets User"
-  principal_id = var.pipeline_principal_id
+  principal_id         = var.pipeline_principal_id
 }
 

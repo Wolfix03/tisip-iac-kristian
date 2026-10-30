@@ -18,5 +18,5 @@ variable "location" {
 
 variable "pipeline_principal_id" {
   description = "OBJECT-ID til service principal-en, ikke client-ID. Se seksjon 10."
-  type = string
+  type        = string
 }

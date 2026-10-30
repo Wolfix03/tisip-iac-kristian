@@ -23,7 +23,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "stack" {
-  source              = "../../stacks"
+  source              = "./stacks"
   project             = local.name_prefix
   location            = var.location
   resource_group_name = azurerm_resource_group.rg.name
