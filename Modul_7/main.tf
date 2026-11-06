@@ -21,7 +21,7 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 
   tags = {
-    student= var.student_id
+    student = var.student_id
     course  = "iac"
   }
 }
