@@ -30,7 +30,7 @@ variable "resource_group_name" {
 }
 
 variable "name_prefix" {
-  type = string
+  type    = string
   default = "krisan03"
 }
 
