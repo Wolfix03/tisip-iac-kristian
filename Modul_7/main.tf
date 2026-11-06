@@ -21,9 +21,9 @@ resource "azurerm_resource_group" "rg" {
   location = var.location
 
   tags = {
-    student = var.student_id
-    course  = "iac"
-    module  = "modul7"
+    student   = var.student_id
+    course    = "iac"
+    module    = "modul7"
     manage_by = "pipeline"
   }
 }
