@@ -37,7 +37,7 @@ jobs:
       - run: terraform init -backend=false
       - run: terraform validate
 
- plan:
+plan:
     needs: build
     if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
