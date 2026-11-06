@@ -57,3 +57,4 @@ jobs:
       - run: terraform plan -var-file="dev.tfvars" -no-color
 
 
+#hjelp meg med å få dette til å fungere.
