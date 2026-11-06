@@ -23,6 +23,8 @@ resource "azurerm_resource_group" "rg" {
   tags = {
     student = var.student_id
     course  = "iac"
+    module  = "modul7"
+    manage_by = "pipeline"
   }
 }
 
