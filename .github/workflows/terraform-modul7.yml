@@ -55,3 +55,5 @@ jobs:
             -backend-config=backend.hcl \
             -backend-config="key=modul7/dev/network.tfstate"
       - run: terraform plan -var-file="dev.tfvars" -no-color
+
+
