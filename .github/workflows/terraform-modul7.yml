@@ -4,12 +4,12 @@ on:
   pull_request:
     branches: [main]
     paths:
-      - 'modul_7/**'
+      - 'Modul_7/**'
       - '.github/workflows/terraform-modul7.yml'
   push:
     branches: [main]
     paths:
-      - 'modul_7/**'
+      - 'Modul_7/**'
       - '.github/workflows/terraform-modul7.yml'
 
 permissions:
@@ -19,7 +19,7 @@ permissions:
 
 defaults:
   run:
-    working-directory: modul_7     # her bor Terraform-rota
+    working-directory: Modul_7     # her bor Terraform-rota
 
 env:
   ARM_USE_OIDC:        "true"
