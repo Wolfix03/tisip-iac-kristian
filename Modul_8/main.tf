@@ -28,16 +28,6 @@ resource "azurerm_resource_group" "rg" {
   }
 }
 
-module "stack" {
-  source              = "./stacks"
-  project             = local.name_prefix
-  location            = var.location
-  resource_group_name = azurerm_resource_group.rg.name
-  student_id          = var.student_id
-  environment         = var.environment
-  name_prefix         = var.name_prefix
-}
-
 module "network" {
   source = "git::https://github.com/Wolfix03/tisip-iac-kristian.git//modules/network?ref=network-v1.0.0"
 
