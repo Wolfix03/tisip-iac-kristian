@@ -29,7 +29,7 @@ resource "azurerm_resource_group" "rg" {
 }
 
 module "network" {
-  source = "git::https://github.com/Wolfix03/tisip-iac-kristian.git//modules/network?ref=network-v1.0.0"
+  source = "git::https://github.com/Wolfix03/tisip-iac-kristian.git//modules/network?ref=network-v1.1.0"
 
   project = local.name_prefix
   location = var.location
