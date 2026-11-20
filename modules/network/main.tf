@@ -15,8 +15,31 @@ resource "azurerm_subnet" "snet" {
 }
 
 resource "azurerm_subnet" "data" {
-  name = "${var.project}-data-subnet"
+  name                 = "${var.project}-data-subnet"
   resource_group_name  = var.resource_group_name
   virtual_network_name = azurerm_virtual_network.vnet.name
   address_prefixes     = ["10.0.2.0/24"]
+}
+
+resource "azurerm_network_security_group" "nsg" {
+  name                = "${var.project}-nsg"
+  location            = var.location
+  resource_group_name = var.resource_group_name
+
+  security_rule {
+    name                       = "ssh"
+    priority                   = 100
+    direction                  = "Inbound"
+    access                     = "Allow"
+    protocol                   = "Tcp"
+    source_port_range          = "*"
+    destination_port_range     = "22"
+    source_address_prefix      = var.ssh_source_prefix
+    destination_address_prefix = "*"
+  }
+}
+
+resource "azurerm_subnet_network_security_group_association" "nsg" {
+  subnet_id                 = azurerm_subnet.snet.id
+  network_security_group_id = azurerm_network_security_group.nsg.id
 }
